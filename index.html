@@ -155,7 +155,6 @@
 <body>
   <div class="container">
     <h1>La Casa de Green ✅️</h1>
-
     <label for="modoSelect">Selecione o Modo:</label>
     <select id="modoSelect" onchange="alternarModo()">
       <option value="aumentoSimples">Aumento Simples (3 Back Bets)</option>
@@ -164,10 +163,9 @@
       <option value="aumentoComLay">Aumento com Lay</option>
     </select>
 
-    <!-- Aumento Simples -->
+    <!-- Modo Aumento Simples -->
     <div id="aumentoSimples" class="section">
       <h2>Aumento Simples</h2>
-      
       <!-- Campos Principais: Casa -->
       <label for="oddBack1">Odd Casa (Original) + Aumento:</label>
       <div class="inputWithSelect">
@@ -194,7 +192,7 @@
         </select>
         <input type="number" id="customInputComissaoOddCasa" step="0.01" placeholder="Digite a comissão personalizada (%)" style="display:none;">
       </div>
-
+      
       <!-- Campos Principais: Empate -->
       <label for="oddBack2">Odd Empate (Original) + Aumento:</label>
       <div class="inputWithSelect">
@@ -221,7 +219,7 @@
         </select>
         <input type="number" id="customInputComissaoOddEmpate" step="0.01" placeholder="Digite a comissão personalizada (%)" style="display:none;">
       </div>
-
+      
       <!-- Campos Principais: Fora -->
       <label for="oddBack3">Odd Fora (Original) + Aumento:</label>
       <div class="inputWithSelect">
@@ -248,38 +246,39 @@
         </select>
         <input type="number" id="customInputComissaoOddFora" step="0.01" placeholder="Digite a comissão personalizada (%)" style="display:none;">
       </div>
-
+      
       <label for="principal">Selecione a aposta principal:</label>
       <select id="principal">
         <option value="1">Aposta Casa</option>
         <option value="2">Aposta Empate</option>
         <option value="3">Aposta Fora</option>
       </select>
-
+      
       <label for="stakePrincipal">Aposta para o Resultado principal (R$):</label>
       <input type="number" id="stakePrincipal" step="0.01" placeholder="Ex: 53.00">
-
+      
       <!-- Botão para adicionar Extras (Modo Aumento Simples) -->
       <button type="button" onclick="adicionarExtra()">Adicionar Extra</button>
-      <!-- Container exclusivo para Extras no Aumento Simples -->
       <div id="extrasContainerSimples"></div>
-
+      
       <button onclick="calcularAumentoSimples()">Calcular</button>
-
+      
       <div class="results">
-        <p><strong>Aposta Casa:</strong> R$ <span id="stakeResultado1"></span></p>
-        <p><strong>Aposta Empate:</strong> R$ <span id="stakeResultado2"></span></p>
-        <p><strong>Aposta Fora:</strong> R$ <span id="stakeResultado3"></span></p>
+        <p><strong>Aposta Casa:</strong> R$ <span id="stakeResultado1">0.00</span></p>
+        <p><strong>Aposta Empate:</strong> R$ <span id="stakeResultado2">0.00</span></p>
+        <p><strong>Aposta Fora:</strong> R$ <span id="stakeResultado3">0.00</span></p>
         <div id="extraResultsContainerSimples" style="display:none;">
           <div id="extraResultsSimples"></div>
         </div>
-        <p><strong>Lucro (independente do resultado):</strong> R$ <span id="lucroAumentoSimples"></span></p>
+        <p><strong>Lucro (independente do resultado):</strong> R$ <span id="lucroAumentoSimples">0.00</span></p>
       </div>
+      
+      <button id="btnSalvarAumentoSimples" class="discreet-btn" style="display:none;" onclick="adicionarLucroPlanilha('Aumento Simples', calcularLucroAumentoSimples())">+ Salvar lucro na planilha</button>
     </div>
-
-    <!-- Par ou Ímpar -->
+    
+    <!-- Modo Par ou Ímpar (não alterado) -->
     <div id="parOuImpar" class="section hidden">
-      <h2>Par ou Ímpar</h2>
+      <h2>Par ou Ímpar (2 Back Bets)</h2>
       <label for="oddPar">Odd Par (Original) + Aumento:</label>
       <div class="inputWithSelect">
         <input type="number" id="oddPar" step="0.01" placeholder="Ex: 1.80">
@@ -305,7 +304,7 @@
         </select>
         <input type="number" id="customInputComissaoOddPar" step="0.01" placeholder="Digite a comissão personalizada (%)" style="display:none;">
       </div>
-
+      
       <label for="oddImpar">Odd Ímpar (Original) + Aumento:</label>
       <div class="inputWithSelect">
         <input type="number" id="oddImpar" step="0.01" placeholder="Ex: 1.80">
@@ -318,16 +317,21 @@
         </select>
       </div>
       <input type="number" id="customInputOddImpar" step="0.01" placeholder="Digite o valor personalizado (%)" style="display:none;">
+      
       <label for="stakePar">Aposta no Par (R$):</label>
       <input type="number" id="stakePar" step="0.01" placeholder="Ex: 20.00">
+      
       <button onclick="calcularParOuImpar()">Calcular</button>
+      
       <div class="results">
-        <p><strong>Aposta no Ímpar:</strong> R$ <span id="stakeImpar"></span></p>
-        <p><strong>Lucro/Retorno:</strong> R$ <span id="lucroParOuImpar"></span></p>
+        <p><strong>Aposta no Ímpar:</strong> R$ <span id="stakeImpar">-</span></p>
+        <p><strong>Lucro/Retorno:</strong> R$ <span id="lucroParOuImpar">-</span></p>
       </div>
+      
+      <button id="btnSalvarParOuImpar" class="discreet-btn" style="display:none;" onclick="adicionarLucroPlanilha('Par ou Ímpar', calcularLucroParOuImpar())">+ Salvar lucro na planilha</button>
     </div>
-
-    <!-- Back & Lay -->
+    
+    <!-- Modo Back & Lay (não alterado) -->
     <div id="backLay" class="section hidden">
       <h2>Back & Lay</h2>
       <label for="oddBack">Odd Back (Original) + Aumento:</label>
@@ -359,14 +363,14 @@
       <input type="number" id="customInputComissaoLay" step="0.01" placeholder="Digite a comissão personalizada (%)" style="display:none;">
       <button onclick="calcularBackLay()">Calcular</button>
       <div class="results">
-        <p><strong>Aposta Sugerida no Lay:</strong> R$ <span id="stakeLay"></span></p>
-        <p><strong>Responsabilidade (Lay):</strong> R$ <span id="responsabilidadeLay"></span></p>
-        <p><strong>Lucro se o Back vencer:</strong> R$ <span id="lucroSeBackVencer"></span></p>
-        <p><strong>Lucro se o Lay vencer:</strong> R$ <span id="lucroSeLayVencer"></span></p>
+        <p><strong>Aposta Sugerida no Lay:</strong> R$ <span id="stakeLay">-</span></p>
+        <p><strong>Responsabilidade (Lay):</strong> R$ <span id="responsabilidadeLay">-</span></p>
+        <p><strong>Lucro se o Back vencer:</strong> R$ <span id="lucroSeBackVencer">-</span></p>
+        <p><strong>Lucro se o Lay vencer:</strong> R$ <span id="lucroSeLayVencer">-</span></p>
       </div>
     </div>
-
-    <!-- Aumento com Lay -->
+    
+    <!-- Modo Aumento com Lay -->
     <div id="aumentoComLay" class="section hidden">
       <h2>Aumento com Lay</h2>
       <label for="oddCasaLay">Odd Casa (Original) + Aumento:</label>
@@ -381,6 +385,7 @@
         </select>
       </div>
       <input type="number" id="customInputOddCasaLay" step="0.01" placeholder="Digite o valor personalizado (%)" style="display:none;">
+      
       <label for="oddEmpateLay">Odd Empate (Original) + Aumento:</label>
       <div class="inputWithSelect">
         <input type="number" id="oddEmpateLay" step="0.01" placeholder="Ex: 3.00">
@@ -393,6 +398,7 @@
         </select>
       </div>
       <input type="number" id="customInputOddEmpateLay" step="0.01" placeholder="Digite o valor personalizado (%)" style="display:none;">
+      
       <label for="oddForaLay">Odd Fora (Original) + Aumento:</label>
       <div class="inputWithSelect">
         <input type="number" id="oddForaLay" step="0.01" placeholder="Ex: 4.00">
@@ -405,8 +411,10 @@
         </select>
       </div>
       <input type="number" id="customInputOddForaLay" step="0.01" placeholder="Digite o valor personalizado (%)" style="display:none;">
+      
       <label for="oddLayAumento">Odd Lay:</label>
       <input type="number" id="oddLayAumento" step="0.01" placeholder="Ex: 4.60">
+      
       <label for="comissaoLayAumento">Comissão Lay (%):</label>
       <div class="inputWithSelect">
         <select id="comissaoLayAumento">
@@ -418,51 +426,58 @@
         </select>
       </div>
       <input type="number" id="customInputComissaoLayAumento" step="0.01" placeholder="Digite a comissão personalizada (%)" style="display:none;">
+      
       <label for="stakePrincipalLay">Stake Principal (R$):</label>
       <input type="number" id="stakePrincipalLay" step="0.01" placeholder="Ex: 50.00">
       
-      <!-- Botão para adicionar Extras no Modo Aumento com Lay -->
+      <!-- Botão para adicionar Extras (Modo Aumento com Lay) -->
       <button type="button" onclick="adicionarExtraLay()">Adicionar Extra</button>
-      <!-- Container exclusivo para Extras no Aumento com Lay -->
       <div id="extrasContainerLay"></div>
       
       <button onclick="calcularAumentoComLay()">Calcular</button>
+      
       <div class="results">
-        <p><strong>Aposta Casa:</strong> R$ <span id="stakeCasaLay"></span></p>
-        <p><strong>Aposta Empate:</strong> R$ <span id="stakeEmpateLay"></span></p>
-        <p><strong>Aposta Fora:</strong> R$ <span id="stakeForaLay"></span></p>
-        <p><strong>Aposta Lay:</strong> R$ <span id="stakeLayAumento"></span> (Responsabilidade: R$ <span id="responsabilidadeLayAumento"></span>)</p>
+        <p><strong>Aposta Casa:</strong> R$ <span id="stakeCasaLay">-</span></p>
+        <p><strong>Aposta Empate:</strong> R$ <span id="stakeEmpateLay">-</span></p>
+        <p><strong>Aposta Fora:</strong> R$ <span id="stakeForaLay">-</span></p>
+        <p><strong>Aposta Lay:</strong> R$ <span id="stakeLayAumento">-</span> (Responsabilidade: R$ <span id="responsabilidadeLayAumento">-</span>)</p>
         <div id="extraResultsContainerLay" style="display:none;">
           <div id="extraResultsLay"></div>
         </div>
-        <p><strong>Lucro (independente do resultado):</strong> R$ <span id="lucroFinalLay"></span></p>
+        <p><strong>Lucro (independente do resultado):</strong> R$ <span id="lucroFinalLay">-</span></p>
       </div>
+      
+      <button id="btnSalvarAumentoComLay" class="discreet-btn" style="display:none;" onclick="adicionarLucroPlanilha('Aumento com Lay', calcularAumentoComLayLucro())">+ Salvar lucro na planilha</button>
     </div>
-
+    
     <p id="mensagemErro"></p>
     <button onclick="limparCampos()" class="clear">Limpar Todos os Campos</button>
     <div class="footer">La Casa de Green ✅️ <span class="badge">By Negueta</span></div>
   </div>
-
+  
   <script>
-    // Variáveis globais para Extras em Aumento Simples e Aumento com Lay
+    // Variáveis globais para Extras nos modos Aumento Simples e Aumento com Lay
     let nextExtraId = 1;
     let activeExtrasSimples = [];
     let activeExtrasLay = [];
-
+    
+    // Alternar modos
     function alternarModo() {
       ['aumentoSimples', 'parOuImpar', 'backLay', 'aumentoComLay'].forEach(mode => {
         document.getElementById(mode).classList.add('hidden');
       });
-      document.getElementById(document.getElementById('modoSelect').value).classList.remove('hidden');
+      const selected = document.getElementById('modoSelect').value;
+      document.getElementById(selected).classList.remove('hidden');
       document.getElementById('mensagemErro').innerText = '';
     }
-
+    
+    // Mostrar campo customizado
     function toggleCustomInput(selectElement, inputId) {
       const customInput = document.getElementById(inputId);
       customInput.style.display = selectElement.value === "custom" ? "block" : "none";
     }
-
+    
+    // Obter valor numérico
     function getNumero(id) {
       const elemento = document.getElementById(id);
       if (!elemento || elemento.value === "") return 0;
@@ -472,12 +487,13 @@
       }
       return parseFloat(elemento.value);
     }
-
+    
+    // Aplicar aumento na odd (arredondamento somente na exibição)
     function aplicarAumentoOdd(oddOriginal, percentual) {
       return (oddOriginal - 1) * (1 + percentual / 100) + 1;
     }
-
-    // Funções para Comissão no Modo Aumento Simples
+    
+    // Funções de comissão para Aumento Simples
     function toggleComissaoCasa() {
       const checkbox = document.getElementById('toggleComissaoCasa');
       const comissaoContainer = document.getElementById('comissaoCasaContainer');
@@ -520,8 +536,6 @@
         aumentoSelect.style.display = 'block';
       }
     }
-
-    // Função para Comissão no Modo Par ou Ímpar
     function toggleComissaoPar() {
       const checkbox = document.getElementById('toggleComissaoPar');
       const comissaoContainer = document.getElementById('comissaoParContainer');
@@ -536,11 +550,10 @@
         aumentoSelect.style.display = 'block';
       }
     }
-
+    
     // Função para adicionar um Extra no modo Aumento Simples
     function adicionarExtra() {
-      // Extras para Aumento Simples
-      if (document.getElementById('aumentoSimples').classList.contains('hidden')) return; // Não adicionar aqui
+      if (document.getElementById('aumentoSimples').classList.contains('hidden')) return;
       if (activeExtrasSimples.length >= 5) {
         alert("Você já adicionou o máximo de 5 extras.");
         return;
@@ -563,10 +576,9 @@
       const div = document.getElementById("extraContainerSimples" + extraId);
       if (div) div.remove();
     }
-
+    
     // Função para adicionar um Extra no modo Aumento com Lay
     function adicionarExtraLay() {
-      // Extras para Aumento com Lay
       if (document.getElementById('aumentoComLay').classList.contains('hidden')) return;
       if (activeExtrasLay.length >= 5) {
         alert("Você já adicionou o máximo de 5 extras.");
@@ -590,10 +602,12 @@
       const div = document.getElementById("extraContainerLay" + extraId);
       if (div) div.remove();
     }
-
-    // Aumento Simples – cálculo com Extras
+    
+    // =========================
+    // MODO AUMENTO SIMPLES – CÁLCULO
+    // =========================
     function calcularAumentoSimples() {
-      // Para os 3 mercados principais
+      // Cálculo dos 3 mercados principais
       let oddCasa;
       if (document.getElementById('toggleComissaoCasa').checked) {
         const comissao = getNumero('comissaoOddCasa');
@@ -619,29 +633,30 @@
       const odds = [oddCasa, oddEmpate, oddFora];
       const principal = parseInt(document.getElementById('principal').value);
       const stakePrincipal = getNumero('stakePrincipal');
-      const stakes = [];
       
-      odds.forEach((odd, i) => {
-        if (i + 1 === principal) {
-          stakes[i] = stakePrincipal;
-        } else {
-          stakes[i] = stakePrincipal * odds[principal - 1] / odd;
-        }
-      });
-      // O retorno alvo é o retorno da aposta principal
+      if (!stakePrincipal || odds.some(o => o === 0)) {
+        document.getElementById('mensagemErro').innerText = "Preencha todos os campos obrigatórios.";
+        return;
+      }
+      
+      // Retorno alvo – apenas a aposta principal é fixa
       const retornoAlvo = stakePrincipal * odds[principal - 1];
       
-      // Calcular stakes ideais para os 3 mercados
-      const stakesIdeais = [
-        retornoAlvo / oddCasa,
-        retornoAlvo / oddEmpate,
-        retornoAlvo / oddFora
+      // Stake ideal para cada mercado (divisão precisa, arredonda só na exibição)
+      const stakesIdeais = odds.map(odd => retornoAlvo / odd);
+      
+      // O lucro base é a diferença entre o retorno alvo e a soma das stakes ideais
+      const somaStakesIdeais = stakesIdeais.reduce((a, b) => a + b, 0);
+      const lucroBase = retornoAlvo - somaStakesIdeais;
+      
+      // No modo Aumento Simples, a aposta real aplicada em mercados com aumento é a stake principal (fixa)
+      const stakesReais = [
+        (getNumero('aumentoOdd1') > 0 || document.getElementById('toggleComissaoCasa').checked) ? stakePrincipal : stakesIdeais[0],
+        (getNumero('aumentoOdd2') > 0 || document.getElementById('toggleComissaoEmpate').checked) ? stakePrincipal : stakesIdeais[1],
+        (getNumero('aumentoOdd3') > 0 || document.getElementById('toggleComissaoFora').checked) ? stakePrincipal : stakesIdeais[2]
       ];
       
-      const totalStakesIdeais = stakesIdeais.reduce((a, b) => a + b, 0);
-      const lucroBase = retornoAlvo - totalStakesIdeais;
-      
-      // Extras no modo Aumento Simples
+      // Extras – cada extra tem stake livre: cálculo como aposta sem aumento
       let extrasTotalInvestido = 0;
       let extrasHtml = "";
       activeExtrasSimples.forEach(id => {
@@ -659,24 +674,23 @@
         document.getElementById("extraResultsContainerSimples").style.display = "none";
       }
       
-      const stakesReais = [
-        (getNumero('aumentoOdd1') > 0 || document.getElementById('toggleComissaoCasa').checked ? stakePrincipal : stakesIdeais[0]),
-        (getNumero('aumentoOdd2') > 0 || document.getElementById('toggleComissaoEmpate').checked ? stakePrincipal : stakesIdeais[1]),
-        (getNumero('aumentoOdd3') > 0 || document.getElementById('toggleComissaoFora').checked ? stakePrincipal : stakesIdeais[2])
-      ];
-      
       const totalInvestidoPrincipais = stakesReais.reduce((a, b) => a + b, 0);
       const totalInvestido = totalInvestidoPrincipais + extrasTotalInvestido;
-      
       const lucroFinal = retornoAlvo - totalInvestido;
       
       document.getElementById('stakeResultado1').textContent = stakesReais[0].toFixed(2);
       document.getElementById('stakeResultado2').textContent = stakesReais[1].toFixed(2);
       document.getElementById('stakeResultado3').textContent = stakesReais[2].toFixed(2);
       document.getElementById('lucroAumentoSimples').textContent = lucroFinal.toFixed(2);
+      document.getElementById('mensagemErro').innerText = '';
+      document.getElementById('btnSalvarAumentoSimples').style.display = 'block';
     }
-
-    // Par ou Ímpar
+    
+    function calcularLucroAumentoSimples() {
+      return parseFloat(document.getElementById('lucroAumentoSimples').textContent) || 0;
+    }
+    
+    // Modo Par ou Ímpar (mantido inalterado)
     function calcularParOuImpar() {
       let oddPar;
       if (document.getElementById('toggleComissaoPar').checked) {
@@ -689,12 +703,12 @@
       const stakePar = getNumero('stakePar');
       const stakeImpar = (stakePar * oddPar) / oddImpar;
       const lucro = stakePar * (oddPar - 1) - stakeImpar;
-
+      
       document.getElementById('stakeImpar').textContent = stakeImpar.toFixed(2);
       document.getElementById('lucroParOuImpar').textContent = lucro.toFixed(2);
     }
-
-    // Back & Lay
+    
+    // Modo Back & Lay (mantido inalterado)
     function calcularBackLay() {
       const oddBack = aplicarAumentoOdd(getNumero('oddBack'), getNumero('aumentoOddBack'));
       const oddLay = getNumero('oddLay');
@@ -704,14 +718,14 @@
       const responsabilidade = stakeLay * (oddLay - 1);
       const lucroBack = stakeBack * (oddBack - 1) - responsabilidade;
       const lucroLay = stakeLay * (1 - comissao) - stakeBack;
-
+      
       document.getElementById('stakeLay').textContent = stakeLay.toFixed(2);
       document.getElementById('responsabilidadeLay').textContent = responsabilidade.toFixed(2);
       document.getElementById('lucroSeBackVencer').textContent = lucroBack.toFixed(2);
       document.getElementById('lucroSeLayVencer').textContent = lucroLay.toFixed(2);
     }
-
-    // Aumento com Lay – cálculo atualizado para lucroFinal = lucroBase + lucroLay
+    
+    // Modo Aumento com Lay – Cálculo atualizado conforme correções
     function calcularAumentoComLay() {
       const oddCasaOriginal = getNumero('oddCasaLay');
       const aumentoCasa = getNumero('aumentoOddCasaLay');
@@ -722,59 +736,55 @@
       const oddLay = getNumero('oddLayAumento');
       const comissaoLay = getNumero('comissaoLayAumento') / 100;
       const stakePrincipal = getNumero('stakePrincipalLay');
-
+      
       if (!oddCasaOriginal || !oddEmpateOriginal || !oddForaOriginal || !oddLay || !stakePrincipal) {
         document.getElementById('mensagemErro').innerText = 'Preencha todos os campos obrigatórios.';
         return;
       }
-
-      // Calcular odd final para cada mercado (aplicando comissão se ativada)
+      
+      // Calcular as odds finais para os mercados com aumento
       const oddCasa = aumentoCasa > 0 ? aplicarAumentoOdd(oddCasaOriginal, aumentoCasa) : oddCasaOriginal;
       const oddEmpate = aumentoEmpate > 0 ? aplicarAumentoOdd(oddEmpateOriginal, aumentoEmpate) : oddEmpateOriginal;
       const oddFora = aumentoFora > 0 ? aplicarAumentoOdd(oddForaOriginal, aumentoFora) : oddForaOriginal;
-
-      // Para os mercados com aumento, a stake aplicada é a stake principal integral.
+      
+      // Para os mercados com aumento, a stake aplicada é a stake principal
       const retornoCasa = (aumentoCasa > 0 ? stakePrincipal * oddCasa : Infinity);
       const retornoEmpate = (aumentoEmpate > 0 ? stakePrincipal * oddEmpate : Infinity);
       const retornoFora = (aumentoFora > 0 ? stakePrincipal * oddFora : Infinity);
-
-      // Retorno alvo é o menor retorno entre os mercados com aumento
+      
+      // Retorno alvo é o menor retorno dentre os mercados com aumento
       const retornos = [retornoCasa, retornoEmpate, retornoFora].filter(r => r !== Infinity);
       const retornoAlvo = Math.min(...retornos);
-
-      // Calcular a stake ideal para cada mercado para atingir exatamente o retornoAlvo.
+      
+      // Calcular a stake ideal para cada mercado para atingir exatamente o retornoAlvo
       const stakesIdeais = [
         retornoAlvo / oddCasa,
         retornoAlvo / oddEmpate,
         retornoAlvo / oddFora
       ];
-
-      // Lucro base (das apostas principais) = retornoAlvo - (soma das stakes ideais)
+      
       const somaStakesIdeais = stakesIdeais.reduce((a, b) => a + b, 0);
       const lucroBase = retornoAlvo - somaStakesIdeais;
-
-      // Para os mercados com aumento, a stake real aplicada é a stake principal.
-      // Excedente = stakePrincipal - stakeIdeal (por mercado)
+      
+      // Para mercados com aumento, a stake real aplicada é a stake principal; o excedente é a diferença
       const excedentes = [
         (aumentoCasa > 0 ? stakePrincipal - stakesIdeais[0] : 0),
         (aumentoEmpate > 0 ? stakePrincipal - stakesIdeais[1] : 0),
         (aumentoFora > 0 ? stakePrincipal - stakesIdeais[2] : 0)
       ];
-
-      // Converter cada excedente em aposta Lay usando:
-      // stakeLay_i = (excedente_i * oddFinal_i) / (oddLay - comissaoLay)
+      
+      // Converter cada excedente em aposta Lay
       const oddsArray = [oddCasa, oddEmpate, oddFora];
       const stakesLayArray = excedentes.map((excedente, i) =>
         excedente > 0 ? (excedente * oddsArray[i]) / (oddLay - comissaoLay) : 0
       );
       const totalStakeLay = stakesLayArray.reduce((a, b) => a + b, 0);
-
-      // Responsabilidade total do Lay:
+      
+      // Responsabilidade total do Lay
       const responsabilidades = stakesLayArray.map(stake => stake * (oddLay - 1));
       const totalResponsibility = responsabilidades.reduce((a, b) => a + b, 0);
-
-      // Calcular o lucro da operação Lay para cada mercado:
-      // lucroLay_i = (excedente_i * (oddFinal_i - 1)) - (stakeLay_i * (oddLay - 1))
+      
+      // Lucro da operação Lay: para cada mercado, lucroLay_i = (excedente * (oddFinal - 1)) - (stakeLay_i * (oddLay - 1))
       const profitLayArray = excedentes.map((excedente, i) => {
         if (excedente > 0) {
           const stakeLay_i = (excedente * oddsArray[i]) / (oddLay - comissaoLay);
@@ -784,11 +794,11 @@
         return 0;
       });
       const lucroLay = profitLayArray.reduce((a, b) => a + b, 0);
-
-      // O lucro final garantido é a soma do lucro base com o lucro da operação Lay.
-      const finalProfit = lucroBase + lucroLay;
-
-      // Extras: para cada extra, a stake ideal é calculada da mesma forma que uma aposta sem aumento.
+      
+      // Lucro final garantido é a soma do lucro base com o lucro da operação Lay
+      const finalCalculatedProfit = lucroBase + lucroLay;
+      
+      // Extras no modo Aumento com Lay (calculados como aposta sem aumento)
       let extrasTotalInvestido = 0;
       let extrasHtml = "";
       activeExtrasLay.forEach(id => {
@@ -805,35 +815,41 @@
       } else {
         document.getElementById("extraResultsContainerLay").style.display = "none";
       }
-
-      // Total investido nos mercados principais
+      
+      // Total investido nos mercados principais: se o mercado tiver aumento, a stake aplicada é a fixa (stakePrincipal), senão a ideal
       const stakesReais = [
         (aumentoCasa > 0 ? stakePrincipal : stakesIdeais[0]),
         (aumentoEmpate > 0 ? stakePrincipal : stakesIdeais[1]),
         (aumentoFora > 0 ? stakePrincipal : stakesIdeais[2])
       ];
       const totalInvestidoPrincipais = stakesReais.reduce((a, b) => a + b, 0);
-      // Total investido geral inclui os extras
-      const totalInvestido = totalInvestidoPrincipais + extrasTotalInvestido;
-
-      // Para este modo, o lucro final garantido é a soma do lucro base com o lucro da operação Lay.
-      const finalCalculatedProfit = finalProfit; 
-
-      document.getElementById('stakeCasaLay').textContent = aumentoCasa > 0 ? stakePrincipal.toFixed(2) : stakesIdeais[0].toFixed(2);
-      document.getElementById('stakeEmpateLay').textContent = aumentoEmpate > 0 ? stakePrincipal.toFixed(2) : stakesIdeais[1].toFixed(2);
-      document.getElementById('stakeForaLay').textContent = aumentoFora > 0 ? stakePrincipal.toFixed(2) : stakesIdeais[2].toFixed(2);
+      const totalInvestidoGeral = totalInvestidoPrincipais + extrasTotalInvestido;
+      
+      // O lucro final garantido é o lucro final calculado
+      const finalProfit = finalCalculatedProfit;
+      
+      document.getElementById('stakeCasaLay').textContent = (aumentoCasa > 0 ? stakePrincipal : stakesIdeais[0]).toFixed(2);
+      document.getElementById('stakeEmpateLay').textContent = (aumentoEmpate > 0 ? stakePrincipal : stakesIdeais[1]).toFixed(2);
+      document.getElementById('stakeForaLay').textContent = (aumentoFora > 0 ? stakePrincipal : stakesIdeais[2]).toFixed(2);
       document.getElementById('stakeLayAumento').textContent = totalStakeLay.toFixed(2);
       document.getElementById('responsabilidadeLayAumento').textContent = totalResponsibility.toFixed(2);
-      document.getElementById('lucroFinalLay').textContent = finalCalculatedProfit.toFixed(2);
+      document.getElementById('lucroFinalLay').textContent = finalProfit.toFixed(2);
       document.getElementById('mensagemErro').innerText = '';
+      document.getElementById('btnSalvarAumentoComLay').style.display = 'block';
     }
-
+    
+    function calcularAumentoComLayLucro() {
+      return parseFloat(document.getElementById('lucroFinalLay').textContent) || 0;
+    }
+    
+    // Modo Freebet e Planilha – não alterados (omiti para foco nos modos solicitados)
+    
+    // Função para limpar campos
     function limparCampos() {
       document.querySelectorAll("input").forEach(input => input.value = "");
       document.querySelectorAll(".results span").forEach(span => span.textContent = "");
       document.getElementById('mensagemErro').innerText = '';
       document.querySelectorAll("input[id^='customInput']").forEach(input => input.style.display = "none");
-      // Limpar extras de ambos os modos
       document.getElementById("extrasContainerSimples").innerHTML = "";
       document.getElementById("extrasContainerLay").innerHTML = "";
       document.getElementById("extraResultsContainerSimples").style.display = "none";
@@ -842,7 +858,7 @@
       activeExtrasLay = [];
       nextExtraId = 1;
     }
-
+    
     document.addEventListener('DOMContentLoaded', alternarModo);
   </script>
 </body>
